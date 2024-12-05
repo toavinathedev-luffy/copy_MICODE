@@ -109,3 +109,32 @@ label {
   font-family: monospace;
   font-size: 24px;
 }
+label:hover {
+  border-color: #646cff;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0/0.1);
+}
+label:has(:checked) {
+  background-color: #646cff50;
+  border-color: #646cff;
+}
+progress {
+  width: 100%;
+}
+.correct {
+  background-color: #bbf7d0 !important;
+}
+.incorrect {
+  background-color: #fecaca !important;
+}
+.big-title {
+  font-size: 64px;
+  color: red;
+}
+.js {
+  background: yellow;
+  display: inline-block;
+  padding-left: 6px;
+  margin-left: -6px;
+  padding-right: 6px;
+  margin-right: -6px;
+}

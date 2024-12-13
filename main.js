@@ -130,12 +130,71 @@ Console:
 //pour exporter les question on utilise le mot clé export puis const et le nom de l élement à exporter
 //export const questions = [ liste des questions ];
 //type="module "  a permis de rendre export et import fonctionné
-let i = 0;
-startButton.addEventListener("click", () => {
-  const question =
-    document.getElementById("question") ?? document.createElement("p"); //si undefined il va crée un p avec l id question
-  question.id = "question";
 
-  question.innerText = Questions[i].question;
-  app.insertBefore(question, startButton);
-});
+// startButton.addEventListener("click", () => {
+//   const question =
+//     document.getElementById("question") ?? document.createElement("p"); //si undefined il va crée un p avec l id question
+//   question.id = "question";
+
+//   question.innerText = Questions[i].question;
+//   app.insertBefore(question, startButton); //sa n ajoute pas plusieurs fois la question car j insere la reference et la reference il n est la qu une seule fois donc il est au bon endroit
+//   i++;
+//   if (i > Questions.length - 1) {
+//     console.log("question removed");
+//     question.remove();
+//     i = 0;
+//   }
+// });
+
+startButton.addEventListener("click", startQuiz);
+function startQuiz(event) {
+  console.log(event);
+  let currentQuestion = 0;
+  let score = 0;
+  console.log("cleaned");
+  function clean() {
+    while (app.firstElementChild) {
+      app.firstElementChild.remove();
+    }
+  }
+  const createAnswer = (answers = []) => {
+    const answersDiv = document.createElement("div");
+    answersDiv.classList.add("answers");
+    for (const answer of answers) {
+      const label = getAnswerElement(answer);
+      answersDiv.appendChild(label);
+    }
+    return answersDiv;
+  };
+  clean();
+  const displayQuestion = (index = 0) => {
+    const question = Questions[index];
+    if (!question) {
+      //finish Quiz
+    }
+    const title = getTitleElement(question.question);
+    app.appendChild(title);
+    const answersDiv = createAnswer(question.answers);
+    app.appendChild(answersDiv);
+  };
+
+  displayQuestion(currentQuestion);
+}
+function getTitleElement(titleOfQuestion = "") {
+  const title = document.createElement("h3");
+  title.innerText = titleOfQuestion;
+  return title;
+}
+function getAnswerElement(answer = "") {
+  const label = document.createElement("label");
+  label.innerText = answer;
+  const input = document.createElement("input");
+  const id = answer.replaceAll(" ", "_").toLowerCase();
+  input.id = id;
+  label.htmlFor = id; //c est le for dans input en quelque sorte
+  input.setAttribute("type", "radio");
+  input.setAttribute("name", "answer");
+  input.setAttribute("value", answer);
+  label.appendChild(input);
+  return label;
+}

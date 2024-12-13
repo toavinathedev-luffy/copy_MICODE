@@ -125,10 +125,5 @@ Console:
     Maintenant si on inspecte Element dans button start il y a maintenant 3 eventListeners body div#app et button#start
     Et useCapture:true
 */
-const colors = ["red", "blue", "green"];
-let i = 0;
-startButton.addEventListener("click", (element) => {
-  app.style.backgroundColor = colors[i];
-  i++;
-  if (i > colors.length - 1) i = 0;
-});
+
+startButton.addEventListener("click", (element) => {});

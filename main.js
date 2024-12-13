@@ -1,4 +1,5 @@
 import "./style.css";
+import { Questions } from "./questions";
 //path:main.js
 const app = document.querySelector(/*selecteur CSS*/ "#app");
 
@@ -126,4 +127,15 @@ Console:
     Et useCapture:true
 */
 
-startButton.addEventListener("click", (element) => {});
+//pour exporter les question on utilise le mot clé export puis const et le nom de l élement à exporter
+//export const questions = [ liste des questions ];
+//type="module "  a permis de rendre export et import fonctionné
+let i = 0;
+startButton.addEventListener("click", () => {
+  const question =
+    document.getElementById("question") ?? document.createElement("p"); //si undefined il va crée un p avec l id question
+  question.id = "question";
+
+  question.innerText = Questions[i].question;
+  app.insertBefore(question, startButton);
+});

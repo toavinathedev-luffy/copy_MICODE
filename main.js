@@ -1,200 +1,76 @@
 import "./style.css";
 import { Questions } from "./questions";
-//path:main.js
 const app = document.querySelector(/*selecteur CSS*/ "#app");
-
-// const header = document.querySelector(/*selecteur*/ "header"); //un seul next sister qui est div#app
-// console.log(app);
-// const colors = ["pink", "purple", "skyblue"];
-// let i = 0;
-// setInterval(() => {
-//   app.style.background = colors[i];
-//   i++;
-//   if (i > colors.length - 1) i = 0;
-// }, 1000);
-
-// //firstChild : récupere le 1er enfant peut importe son type
-// //firstElementChild récupere le premier enfant qui est un élement
-// console.log(app.firstElementChild); //=><h1>...</h1>
-// /*
-// DOm sa représente une structure d arbre ,le DOM va gérer les eventListener,les élements,les selecteur et etc
-// puis il a les API WEB , setTimeout,window,setInterval,sessionStorage,navigation,cookies,localStorage,fetch fait partie du WEB API
-// */
-// console.log({
-//   parent: app.parentElement,
-//   prevSister: app.previousElementSibling, //<header>header</header>
-//   nextSister: app.nextElementSibling, //<footer>footer</footer>
-//   firstchild: app.firstElementChild, //<h1>first child</h1>
-//   lastchild: app.lastElementChild, //<h2>Last Child</h2>
-//   children: app.children, //un tableau qui représente HTMLCollection(3)[h1,p,h2]
-// }); //le parent de app est body
-// //un élement n aura toujours qu une qeule soeur previous et une seul soeur next
-// //previous sister <- element -> next sister
-
-// document.getElementById; //pourquoi on récupere principalement avec les id ? car ils sont uniques
-// //->document.querySelector('#id')
-// document.getElementsByClassName;
-// //document.querySelector(".className");
-// document.getElementsByTagName;
-// //document.querySelector("tagName");
-
-// //Deconseille
-// app.innerHTML = `
-//     <div><h1>Salut</h1></div>
-// `;
-
-// // console.log(div); //=><div></div>
-// // console.log({
-// //   parent: div.parentElement, //null
-// //   content: div.innerHTML, //''
-// // });
-
-// //Conseillé car plus de flexibilité car dands le 1er si on en a besoin on va devoir les récupérer alors que là on a direct leur réference
-// const div = document.createElement("div");
-// const title = document.createElement("h1");
-// // title.className = "bigTitle";
-
-// title.innerText = "jean!";
-// // title.classList.add("title", "bigTitle");
-// // title.id="Mon Super Title";
-// div.appendChild(title); //<div><h1></h1></div>
-// app.appendChild(div); //<div id="app">...<div></div></div>
-// console.log({
-//   parent: div.parentElement, //null
-//   content: div.innerHTML, //''
-//   children: app.children,
-// });
-// const input = document.createElement("input");
-// div.appendChild(input);
-// // setInterval(() => {
-// //   input.value += "M";
-// // }, 1000);
-// console.log(app.children[0]);
 const startButton = document.querySelector("#start");
-//n hésitez pas à lire la MDN docs
-/*AEL Lessons 
-    addEventListener(type de l event,Listener)
-    addEventListener(type,Listener,options)
-    addEventListener(type,Listener,useCapture)
-*/
-// startButton.addEventListener("click", () => alert(" start click"));
-// //Dans le debuggoeur chrome quand tu vas vers element tu selectionne le button Start dans la partie Event Listeners tu peux voir click
-// //si on va plus en détails il y a le useCapture qui est intéressant et le handler:()=>{alert("click")}
-// app.addEventListener("click", () => alert("App click"));
-// //ici c est d abord le start click puis le App click
-// document.body.addEventListener("click", () => console.log("body click"));
 
-// //ici c est d abord le start click puis le App click et enfin la console donne body click
-//__________________
+//Affichage de la question
+const getTitleOfQuestion = (questionTitle) => {
+  const title = document.createElement("h3");
+  title.innerText = questionTitle;
+  return title;
+};
 
-//Dans le debuggoeur chrome quand tu vas vers element tu selectionne le button Start dans la partie Event Listeners tu peux voir click
-//si on va plus en détails il y a le useCapture qui est intéressant et le handler:()=>{alert("click")}
-// app.addEventListener("click", () => alert("App click"));
-// document.body.addEventListener("click", () => console.log("body click"));
-// startButton.addEventListener("click", () => alert(" start click"));
-//ici le start click est toujours affiché le premier
-//Alors comment JS gere ses event
-/*
-    Soit une appli tel que dans l arbre du DOM
-    body -> #app -> section -> article -> button
-    les events dans JS 
-        body-capture-> #app -capture-> section -> article -> button
-        par defaut :button-bubble->article-bubble->section-bubble->#app-bubble->body
-    */
-
-// app.addEventListener("click", () => console.log("[app] clicked"), true);
-// document.body.addEventListener("click", () => console.log("[body] clicked"));
-// startButton.addEventListener("click", () => console.log("start clicked"), true);
-/*
-[app clicked]
-start clicked
-body clicked 
-*/
-
-// app.addEventListener("click", () => console.log("[app] clicked"), true);
-// document.body.addEventListener(
-//   "click",
-//   () => console.log("[body] clicked"),
-//   true
-// );
-// startButton.addEventListener("click", () => console.log("start clicked"), true);
-/*
-Console:
-    [body] clicked
-    [app] clicked
-    start clicked
-    Maintenant si on inspecte Element dans button start il y a maintenant 3 eventListeners body div#app et button#start
-    Et useCapture:true
-*/
-
-//pour exporter les question on utilise le mot clé export puis const et le nom de l élement à exporter
-//export const questions = [ liste des questions ];
-//type="module "  a permis de rendre export et import fonctionné
-
-// startButton.addEventListener("click", () => {
-//   const question =
-//     document.getElementById("question") ?? document.createElement("p"); //si undefined il va crée un p avec l id question
-//   question.id = "question";
-
-//   question.innerText = Questions[i].question;
-//   app.insertBefore(question, startButton); //sa n ajoute pas plusieurs fois la question car j insere la reference et la reference il n est la qu une seule fois donc il est au bon endroit
-//   i++;
-//   if (i > Questions.length - 1) {
-//     console.log("question removed");
-//     question.remove();
-//     i = 0;
-//   }
-// });
-
-startButton.addEventListener("click", startQuiz);
 function startQuiz(event) {
-  console.log(event);
+  event.stopPropagation(); //Arrete la propagation de l event
   let currentQuestion = 0;
   let score = 0;
-  console.log("cleaned");
-  function clean() {
-    while (app.firstElementChild) {
-      app.firstElementChild.remove();
-    }
-  }
-  const createAnswer = (answers = []) => {
+  const createAnswer = (answers) => {
     const answersDiv = document.createElement("div");
     answersDiv.classList.add("answers");
     for (const answer of answers) {
+      const getAnswerElement = (text = "") => {
+        const label = document.createElement("label");
+        label.innerText = text;
+        const input = document.createElement("input");
+        const inputId = text.replaceAll(" ", "_").toLowerCase();
+        input.id = inputId;
+        label.htmlFor = inputId;
+        input.setAttribute("type", "radio");
+        input.setAttribute("name", "answer");
+        input.setAttribute("value", text);
+        label.appendChild(input);
+        return label;
+      };
       const label = getAnswerElement(answer);
       answersDiv.appendChild(label);
     }
     return answersDiv;
   };
-  clean();
-  const displayQuestion = (index = 0) => {
-    const question = Questions[index];
+  const clean = () => {
+    while (app.firstElementChild) {
+      app.firstElementChild.remove();
+    }
+  };
+  const displayQuestion = (indexOfQuestion) => {
+    const question = Questions[indexOfQuestion];
     if (!question) {
       //finish Quiz
     }
-    const title = getTitleElement(question.question);
+    const title = getTitleOfQuestion(question.question);
     app.appendChild(title);
-    const answersDiv = createAnswer(question.answers);
-    app.appendChild(answersDiv);
-  };
+    const listOFAnswer = createAnswer(question.answers);
+    app.appendChild(listOFAnswer);
 
+    const submitButton = getSubmitButton();
+    function submitAnswerOfUser(e) {
+      e.stopPropagation();
+      const selectedAnswer = app.querySelector("input[name='answer']:checked");
+      const value = selectedAnswer ? selectedAnswer.value : "";
+      const question = Questions[currentQuestion];
+      const isCorrect = question.correct === value;
+      alert(`${isCorrect ? "correct" : "incorrect"}`);
+    }
+    app.appendChild(submitButton);
+    submitButton.addEventListener("click", submitAnswerOfUser);
+  };
+  clean();
   displayQuestion(currentQuestion);
 }
-function getTitleElement(titleOfQuestion = "") {
-  const title = document.createElement("h3");
-  title.innerText = titleOfQuestion;
-  return title;
-}
-function getAnswerElement(answer = "") {
-  const label = document.createElement("label");
-  label.innerText = answer;
-  const input = document.createElement("input");
-  const id = answer.replaceAll(" ", "_").toLowerCase();
-  input.id = id;
-  label.htmlFor = id; //c est le for dans input en quelque sorte
-  input.setAttribute("type", "radio");
-  input.setAttribute("name", "answer");
-  input.setAttribute("value", answer);
-  label.appendChild(input);
-  return label;
+
+startButton.addEventListener("click", startQuiz);
+
+function getSubmitButton() {
+  const submitButton = document.createElement("button");
+  submitButton.innerText = "Submit";
+  return submitButton;
 }

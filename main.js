@@ -2,10 +2,14 @@ import "./style.css";
 import { Questions } from "./questions";
 const app = document.getElementById("app");
 const startButton = document.getElementById("start");
+let currentQuestion = 0;
+let score = 0;
+const formatId = (id = "id") => {
+  return id.replaceAll(" ", "-").toLowerCase();
+};
 function startQuiz(event) {
   console.log("start Clicked");
-  let currentQuestion = 0;
-  let score = 0;
+
   const clean = () => {
     while (app.firstElementChild) {
       app.firstElementChild.remove();
@@ -42,8 +46,29 @@ function submit() {
   //gerer la submit
   const selectedAnswer = app.querySelector(`input[name="answer"]:checked`);
   const value = selectedAnswer.value;
-  alert(`tu as répondu ${value}`);
+  const questionCurrent = Questions[currentQuestion];
+  const isCorrect = questionCurrent.correct === value;
+  if (isCorrect) score++;
+  showFeedBack(isCorrect, questionCurrent.correct, value);
 }
+function showFeedBack(iscorrect = false, correct = "", answer = "") {
+  const correctAnswerId = formatId(correct);
+  const correctElement = document.querySelector(
+    `label[for="${correctAnswerId}"]`
+  );
+
+  const selectedAnswerId = formatId(answer);
+  const selectedElement = document.querySelector(
+    `label[for="${selectedAnswerId}"]`
+  );
+  if (iscorrect) {
+    selectedElement.classList.add("correct");
+  } else {
+    selectedElement.classList.add("incorrect");
+    correctElement.classList.add("correct");
+  }
+}
+
 function getTitleElement(titleOfTheQuestion) {
   const title = document.createElement("h3");
   title.innerText = titleOfTheQuestion;
@@ -54,7 +79,7 @@ function getAnswerElement(answer) {
   label.innerText = answer;
   const input = document.createElement("input");
   let inputId = "";
-  inputId = answer.replaceAll(" ", "-").toLowerCase();
+  inputId = formatId(answer);
   input.id = inputId;
   label.htmlFor = inputId;
   input.setAttribute("type", "radio");

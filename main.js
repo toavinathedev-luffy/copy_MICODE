@@ -61,12 +61,8 @@ function showFeedBack(iscorrect = false, correct = "", answer = "") {
   const selectedElement = document.querySelector(
     `label[for="${selectedAnswerId}"]`
   );
-  if (iscorrect) {
-    selectedElement.classList.add("correct");
-  } else {
-    selectedElement.classList.add("incorrect");
-    correctElement.classList.add("correct");
-  }
+  correctElement.classList.add("correct");
+  selectedElement.classList.add(iscorrect ? "correct" : "incorrect");
 }
 
 function getTitleElement(titleOfTheQuestion) {

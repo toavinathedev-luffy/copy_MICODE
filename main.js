@@ -50,6 +50,8 @@ function submit() {
   const isCorrect = questionCurrent.correct === value;
   if (isCorrect) score++;
   showFeedBack(isCorrect, questionCurrent.correct, value);
+  const feedback = getFeedBackMessage(isCorrect, questionCurrent.correct);
+  app.appendChild(feedback);
 }
 function showFeedBack(iscorrect = false, correct = "", answer = "") {
   const correctAnswerId = formatId(correct);
@@ -88,4 +90,11 @@ function getSubmitButton() {
   const submit = document.createElement("button");
   submit.innerText = "Submit";
   return submit;
+}
+function getFeedBackMessage(iscorrect, correct) {
+  const paragraph = document.createElement("p");
+  paragraph.innerText = iscorrect
+    ? `bravo tu as eu la bonne reponse`
+    : `Dommage,la bonne réponse était ${correct}`;
+  return paragraph;
 }

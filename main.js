@@ -6,7 +6,7 @@ let currentQuestion = 0;
 let score = 0;
 const TIMEOUT = 3000;
 const formatId = (id = "id") => {
-  return id.replaceAll(" ", "-").toLowerCase();
+  return id.replaceAll(" ", "-").replaceAll('"', "'").toLowerCase();
 };
 function startQuiz(event) {
   console.log("start Clicked");
@@ -20,24 +20,33 @@ startButton.addEventListener("click", startQuiz);
 function submit() {
   //gerer la submit
   const selectedAnswer = app.querySelector(`input[name="answer"]:checked`);
+  const disableAllAnswer = () => {
+    const radioInputs = document.querySelectorAll("input[type='radio'");
+    for (const radio of radioInputs) {
+      radio.disabled = true;
+    }
+  };
+  disableAllAnswer();
   const value = selectedAnswer.value;
   const questionCurrent = Questions[currentQuestion];
   const isCorrect = questionCurrent.correct === value;
   if (isCorrect) score++;
   showFeedBack(isCorrect, questionCurrent.correct, value);
+  displayNextQuestionButton(() => {
+    currentQuestion++;
+    displayQuestion(currentQuestion);
+  });
   const feedback = getFeedBackMessage(isCorrect, questionCurrent.correct);
   app.appendChild(feedback);
-  displayNextQuestionButton();
 }
 
-function displayNextQuestionButton() {
+function displayNextQuestionButton(callBack) {
   let remainingTimeOut = TIMEOUT;
 
   const handleNextQuestion = () => {
-    currentQuestion++;
     clearInterval(interval);
     clearTimeout(timeout);
-    displayQuestion(currentQuestion);
+    callBack();
   };
 
   app.querySelector("button").remove();
@@ -132,11 +141,21 @@ function clean() {
 }
 function displayFinishMessage() {
   const h1 = document.createElement("h1");
-  h1.innerText = "Bravo you have finished the quiz";
+  h1.innerText = "Bravo Tu as terminé le Quiz ";
   const p = document.createElement("p");
   p.innerText = `Tu as eu ${score} sur ${Questions.length} points`;
   app.appendChild(h1);
   app.appendChild(p);
+  const feedbackScore = document.createElement("p");
+  if (score <= Questions.length / 2) {
+    feedbackScore.innerText = "Houla tu dois devoir réviser un peu mon gars";
+  } else if (score < Questions.length && score > Questions.length / 2) {
+    feedbackScore.innerText = "Bravo Tu y es presque";
+  } else if (score == Questions.length) {
+    feedbackScore.innerText =
+      "Félicitations,Javascript n'a plus aucun secret pour toi";
+  }
+  app.appendChild(feedbackScore);
 }
 function getProgressBar(max, value) {
   const progress = document.createElement("progress");

@@ -12,8 +12,8 @@ export const Questions = [
   },
   {
     question: 'Quel est le résultat de "2"+2 en javascript ?',
-    answers: ["4", "22", "22"],
-    correct: "22",
+    answers: ["4", '"22"', "22", "Error"],
+    correct: '"22"',
   },
   {
     question: "Comment appelle t-on une fonction qui s'appelle elle même ?",
